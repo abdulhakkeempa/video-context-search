@@ -7,27 +7,20 @@ import cv2
 from PIL import Image
 from tqdm import tqdm
 
-
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-
-# === Config ===
 VIDEO_FOLDER = "data/videos"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 DIM = 512  # Output dimension from CLIP
 SKIP_SECONDS = 2
 
-# === Model and Preprocessing ===
-# Example using CLIP
 import clip
 model, preprocess = clip.load("ViT-B/32", device=device)
 model.eval()
 
-# === FAISS Setup ===
-index = faiss.IndexFlatIP(DIM)  # or faiss.IndexIDMap if you want to associate IDs
+index = faiss.IndexFlatIP(DIM)  
 metadata = []  # To store (video_name, timestamp) for each vector
 
-# === Loop through videos ===
 for filename in os.listdir(VIDEO_FOLDER):
     if not filename.lower().endswith((".mp4", ".avi", ".mov", ".mkv")):
         continue
@@ -56,7 +49,6 @@ for filename in os.listdir(VIDEO_FOLDER):
             t += SKIP_SECONDS
             continue
 
-        # Convert frame to tensor and get embedding
         with torch.no_grad():
             image_input = preprocess(Image.fromarray(frame)).unsqueeze(0).to(device)
             embedding = model.encode_image(image_input)
