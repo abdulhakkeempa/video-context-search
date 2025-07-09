@@ -1,0 +1,6 @@
+*.prof
+*.index
+*.pkl
+*.pyc
+*.mp4
+venv/
