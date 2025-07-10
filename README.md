@@ -38,26 +38,31 @@ pip install -r requirements.txt
 pip install git+https://github.com/openai/CLIP.git
 ```
 
-### 4. Ensure required data files are present
+### 4. Generate embeddings from the video files
+- Place your videos in `data/videos/` 
+```powershell
+python scripts/main.py
+```
+
+### 5. Ensure required data files are present
 - `video_frames.index` (FAISS index file)
 - `video_metadata.pkl` (Pickle file with video metadata)
-- Place your videos in `data/videos/` if needed
 
-### 5. Run the FastAPI server
+### 6. Run the FastAPI server
 ```powershell
 uvicorn main:app --reload
 ```
 
 The API will be available at `http://127.0.0.1:8000`.
 
-### 6. Test the API
-You can use [Swagger UI](http://127.0.0.1:8000/docs) to interact with the `/search` endpoint.
+### 7. Test the API
+You can use [Swagger UI](http://127.0.0.1:8000/docs) to interact with the `/api/search` endpoint.
 
 ---
 
 ## Example API Request
 ```json
-POST /search
+POST /api/search
 {
   "query": "A woman in water",
   "top_k": 5
@@ -77,5 +82,3 @@ POST /search
 
 ---
 
-## License
-MIT License
